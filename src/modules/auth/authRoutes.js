@@ -11,15 +11,17 @@ import { authorization, restrictTo } from "../../middleware/authMiddleware.js";
 
 const router = Router();
 
+// Registrera ny användare med validering och asynkron hantering
 router.post(
   "/register",
   validate(registerUserSchema, "body"),
   CatchAsync(registerUser)
 );
 
+// Logga in användare med validering
 router.post("/login", validate(loginUserSchema, "body"), CatchAsync(loginUser));
 
-//ADMIN ONLY:
+// Endast admin får uppgradera annan användare till admin
 router.patch(
   "/:id/promote",
   authorization,
@@ -27,4 +29,5 @@ router.patch(
   validate(userIdSchema, "params"),
   CatchAsync(promoteUser)
 );
+
 export default router;

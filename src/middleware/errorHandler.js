@@ -1,24 +1,32 @@
 import AppError from "../utils/AppError.js";
 
+// Central felhanterare
 const errorHandler = (err, req, res, next) => {
-  console.error("ERR:", err);
+  console.error("Felmeddelande:", err);
 
   let error = err;
 
+  // Hantera dubblettfel för filmer (titel + år)
   if (
     err.code === 11000 &&
     err.keyPattern?.title &&
     err.keyPattern?.releaseYear
   ) {
-    error = new AppError("Det finns redan en film med samma titel & år", 400);
-  } else if (
+    error = new AppError("En film med samma titel och år finns redan", 400);
+  }
+
+  // Hantera dubblettfel för recensioner (en recension per användare per film)
+  else if (
     err.code === 11000 &&
     err.keyPattern?.movieId &&
     err.keyPattern?.userId
   ) {
-    error = new AppError("Du kan bara ge ett omdöme per film", 400);
-  } else if (!(err instanceof AppError)) {
-    error = new AppError("Internal Server Error", 500, false);
+    error = new AppError("Du har redan recenserat denna film", 400);
+  }
+
+  // Hantera övriga okända fel som inte är AppError
+  else if (!(err instanceof AppError)) {
+    error = new AppError("Internt serverfel", 500, false);
   }
 
   res
