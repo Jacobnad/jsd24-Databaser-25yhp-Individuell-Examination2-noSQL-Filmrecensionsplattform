@@ -1,9 +1,11 @@
-# jsd24-Databaser-25yhp-Individuell-Examination2-noSQL-Filmrecensionsplattform
+# jsd24-Databaser-25yhp-Individuell-Examination2-noSQL-
+
+https://youtu.be/UWwZvRZNimI?si=EeeA5W2mKSiUy_Rr
 
 ## 👥 Roller
 
 ### 🔐 Roller & Behörighet
-
+  
 - När du registrerar en användare får den automatiskt rollen `user`.
 - Första admin skapas **manuellt** i MongoDB Atlas:
   - Exempel:
