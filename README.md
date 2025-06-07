@@ -182,8 +182,8 @@ Authorization: Bearer JWT_TOKEN
 ```json
 {
   "movieId": "6844240badaa8a37bbaa4c10",
-  "rating": 5,
-  "text": "En fantastisk film!"
+  "rating": 9,
+  "comment": "Fantastisk film med snygga effekter!"
 }
 ```
 
