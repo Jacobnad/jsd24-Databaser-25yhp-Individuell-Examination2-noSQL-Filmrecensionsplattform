@@ -5,6 +5,7 @@ import errorHandler from "./middleware/errorHandler.js";
 import authRouter from "./modules/auth/authRoutes.js";
 import moviesRouter from "./modules/movies/movieRoutes.js";
 import reviewsRouter from "./modules/reviews/reviewRoutes.js";
+import AppError from "./utils/AppError.js"; // ✅ Glöm inte att importera AppError
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,6 +21,13 @@ mongoose
   .then(() => console.log("✅ Ansluten till MongoDB"))
   .catch((err) => console.error("❌ Fel vid anslutning till MongoDB:", err));
 
+// 👉 Ny startsida route
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "🎬 Välkommen till filmrecensionsplattformens API!",
+  });
+});
+
 // Routes för olika delar av API:et
 app.use("/auth", authRouter);
 app.use("/movies", moviesRouter);
@@ -34,4 +42,6 @@ app.use((req, res, next) => {
 app.use(errorHandler);
 
 // Startar servern
-app.listen(port, () => console.log(`🚀 Servern är igång på http://localhost:${port}`));
+app.listen(port, () =>
+  console.log(`🚀 Servern är igång på http://localhost:${port}`)
+);
