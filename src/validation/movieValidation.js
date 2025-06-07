@@ -25,14 +25,17 @@ export const movieSchema = Joi.object({
     .integer()
     .min(1888)
     .max(new Date().getFullYear())
+    .required()
     .messages({
       "number.base": "Releasedatum måste vara ett nummer",
       "number.min": "Releasedatum kan vara tidigast {#limit}",
       "number.max": "Releasedatum kan inte vara i framtiden",
+      "any.required": "Releasedatum saknas",
     }),
   genre: Joi.array()
     .items(
       Joi.string()
+        .trim()
         .lowercase()
         .valid(...allowedGenres)
         .messages({
@@ -69,6 +72,8 @@ export const updateMovieSchema = Joi.object({
   genre: Joi.array()
     .items(
       Joi.string()
+        .trim()
+        .lowercase()
         .valid(...allowedGenres)
         .messages({
           "any.only":
@@ -88,7 +93,7 @@ export const updateMovieSchema = Joi.object({
 
 export const movieIdSchema = Joi.object({
   id: Joi.string().length(24).hex().required().messages({
-    "string.hex": "movieId måste vara en giltig hex-sträng",
-    "any.required": "movieId saknas",
+    "string.hex": "Id måste vara en giltig hex-sträng",
+    "any.required": "Id saknas",
   }),
 });

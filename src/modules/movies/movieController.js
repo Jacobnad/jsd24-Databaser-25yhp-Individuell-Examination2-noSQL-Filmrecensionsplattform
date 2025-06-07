@@ -6,7 +6,7 @@ import { ObjectId } from "mongoose";
 const capitalize = (str) =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
-//OPEN ACCESS
+// Öppet för alla
 export const getAllMovies = async (req, res, next) => {
   const movies = await Movie.find();
 
@@ -22,7 +22,7 @@ export const findMovieById = async (req, res, next) => {
   const { id } = req.params;
 
   const movie = await Movie.findById(id);
-  if (!movie) return next(new AppError("Filmen hittades inte", 404));
+  if (!movie) return next(new AppError("Filmen kunde inte hittas", 404));
 
   res.status(200).json({
     success: true,
@@ -34,7 +34,7 @@ export const getMovieReviews = async (req, res, next) => {
   const { id } = req.params;
 
   const movie = await Movie.findById(id);
-  if (!movie) return next(new AppError("Filmen hittades inte", 404));
+  if (!movie) return next(new AppError("Filmen kunde inte hittas", 404));
 
   const reviews = await Review.find({ movieId: id }).populate(
     "userId",
@@ -59,7 +59,7 @@ export const getMovieRating = async (req, res, next) => {
   const { id } = req.params;
 
   const movie = await Movie.findById(id);
-  if (!movie) return next(new AppError("Filmen hittades inte", 404));
+  if (!movie) return next(new AppError("Filmen kunde inte hittas", 404));
 
   const rating = await Review.aggregate([
     { $match: { movieId: new ObjectId(id) } },
@@ -87,6 +87,7 @@ export const getMovieRating = async (req, res, next) => {
       },
     });
   }
+
   const { avarageRating, count } = rating[0];
   res.status(200).json({
     success: true,
@@ -103,7 +104,7 @@ export const getMovieRating = async (req, res, next) => {
   });
 };
 
-//ADMIN ONLY:
+// Endast admin kan lägga till filmer
 export const addMovie = async (req, res, next) => {
   const { title, director, releaseYear, genre } = req.body;
 
@@ -117,7 +118,7 @@ export const addMovie = async (req, res, next) => {
 
   res.status(201).json({
     success: true,
-    message: "Film tillagd",
+    message: "Filmen har lagts till",
     data: movie,
   });
 };
@@ -132,11 +133,11 @@ export const updateMovieById = async (req, res, next) => {
 
   const movie = await Movie.findByIdAndUpdate(id, update, { new: true });
   if (!movie)
-    return next(new AppError("Filmen du vill uppdatera hittades inte", 404));
+    return next(new AppError("Filmen som ska uppdateras kunde inte hittas", 404));
 
   res.status(200).json({
     success: true,
-    message: "Film uppdaterat",
+    message: "Filmen är uppdaterad",
     data: movie,
   });
 };
@@ -146,11 +147,11 @@ export const deleteMovieById = async (req, res, next) => {
   const deleted = await Movie.findByIdAndDelete(id);
 
   if (!deleted)
-    return next(new AppError("Filmen du vill radera hittades inte", 404));
+    return next(new AppError("Filmen som ska tas bort kunde inte hittas", 404));
 
   res.status(200).json({
     success: true,
-    message: "Film raderad",
+    message: "Filmen har tagits bort",
     data: {
       deleted: deleted.title,
     },

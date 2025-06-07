@@ -31,7 +31,7 @@ const movieSchema = new Schema(
           "Äventyr",
           "Fantasy",
           "Dokumentär",
-          "Romantik"
+          "Romantik",
         ],
         message: "Ogiltig genre: `{VALUE}`",
       },
@@ -42,19 +42,18 @@ const movieSchema = new Schema(
     timestamps: true,
     toJSON: {
       virtuals: true,
-      versionKey: false, 
-      transform: (_, ret) => { 
-        ret.id = ret._id;
-        delete ret._id;
+      versionKey: false,
+      transform: (_, ret) => {
+        ret.id = ret._id;  // gör _id mer användarvänligt som id
+        delete ret._id;    // ta bort _id från JSON-svaret
       },
     },
   }
 );
 
-
+// Skapa unikt index för titel och releasedatum tillsammans
 movieSchema.index({ title: 1, releaseYear: 1 }, { unique: true });
 
 const Movie = mongoose.model("Movie", movieSchema);
-export default Movie;
 
-//Slugify??
+export default Movie;

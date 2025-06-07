@@ -19,32 +19,32 @@ import {
 
 const router = Router();
 
-//Get all movies
+// Get all movies
 router.get("/", CatchAsync(getAllMovies));
 
-//Get a movie by id
+// Get a movie by id
 router.get(
   "/:id",
   validate(movieIdSchema, "params"),
   CatchAsync(findMovieById)
 );
 
-//Get a movie's reviews
+// Get a movie's reviews
 router.get(
   "/:id/reviews",
   validate(movieIdSchema, "params"),
   CatchAsync(getMovieReviews)
 );
 
-//Get a movie's avarage rating
+// Get a movie's average rating
 router.get(
   "/:id/ratings",
   validate(movieIdSchema, "params"),
   CatchAsync(getMovieRating)
 );
 
-//ADMIN ONLY
-//Post a movie
+// ADMIN ONLY
+// Post a movie
 router.post(
   "/",
   authorization,
@@ -53,17 +53,17 @@ router.post(
   CatchAsync(addMovie)
 );
 
-//Update a movie by id
+// Update a movie by id
 router.put(
   "/:id",
   authorization,
   restrictTo("admin"),
   validate(movieIdSchema, "params"),
-  validate(updateMovieSchema),
+  validate(updateMovieSchema, "body"),
   CatchAsync(updateMovieById)
 );
 
-//Delete a movie by id
+// Delete a movie by id
 router.delete(
   "/:id",
   authorization,

@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const reviewSchema = Joi.object({
-  movieId: Joi.string().length(24).hex().required().messages({
+  movieId: Joi.string().trim().length(24).hex().required().messages({
     "string.hex": "movieId måste vara en giltig hex-sträng",
     "any.required": "movieId saknas",
   }),
@@ -14,12 +14,11 @@ export const reviewSchema = Joi.object({
   comment: Joi.string().max(5000).trim().optional().messages({
     "string.base": "Kommentaren måste vara en sträng",
     "string.max": "Kommentaren får vara max {#limit} tecken",
-    "any.required": "Kommentar saknas",
   }),
 });
 
 export const updateReviewSchema = Joi.object({
-  movieId: Joi.string().length(24).hex().messages({
+  movieId: Joi.string().trim().length(24).hex().messages({
     "string.hex": "movieId måste vara en giltig hex-sträng",
   }),
   rating: Joi.number().integer().min(1).max(10).messages({
@@ -31,13 +30,15 @@ export const updateReviewSchema = Joi.object({
     "string.base": "Kommentaren måste vara en sträng",
     "string.max": "Kommentaren får vara max {#limit} tecken",
   }),
-}).min(1).messages({
-  "object.min": "Minst ett fält måste anges för uppdatering."
-});
+})
+  .min(1)
+  .messages({
+    "object.min": "Minst ett fält måste anges för uppdatering.",
+  });
 
 export const reviewIdSchema = Joi.object({
   id: Joi.string().length(24).hex().required().messages({
-    "string.hex": "reviewId måste vara en giltig hex-sträng",
-    "any.required": "reviewId saknas",
+    "string.hex": "Id måste vara en giltig hex-sträng",
+    "any.required": "Id saknas",
   }),
 });
