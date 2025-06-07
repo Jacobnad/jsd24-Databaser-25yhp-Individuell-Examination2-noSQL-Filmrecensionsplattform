@@ -13,20 +13,20 @@ const reviewSchema = new Schema(
       required: true,
     },
     rating: {
-        type: Number,
-        required: true,
-        min: [1, 'Lägsta betyg är 1'],
-        max: [10, 'Högsta betyg är 10'],
-        validate: {
-            validator: Number.isInteger,
-            message: 'Betyget måste vara ett heltal'
-        }
+      type: Number,
+      required: true,
+      min: [1, "Minsta tillåtna betyg är 1"],
+      max: [10, "Maximalt tillåtna betyg är 10"],
+      validate: {
+        validator: Number.isInteger,
+        message: "Betyget måste anges som ett helt tal",
+      },
     },
     comment: {
-        type: String,
-        required: true,
-        trim: true,
-        maxlength: [5000, 'Kommentaren får vara högst 5000 tecken']
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: [5000, "Kommentarens längd får inte överskrida 5000 tecken"],
     },
   },
   {
@@ -42,7 +42,8 @@ const reviewSchema = new Schema(
   }
 );
 
-reviewSchema.index({movieId: 1, userId: 1}, {unique: true})
+// Säkerställer att samma användare inte recenserar samma film mer än en gång
+reviewSchema.index({ movieId: 1, userId: 1 }, { unique: true });
 
-const Review = mongoose.model('Review', reviewSchema)
-export default Review
+const Review = mongoose.model("Review", reviewSchema);
+export default Review;

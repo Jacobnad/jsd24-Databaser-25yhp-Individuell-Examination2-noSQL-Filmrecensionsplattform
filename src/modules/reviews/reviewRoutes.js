@@ -17,17 +17,17 @@ import {
 
 const router = Router();
 
-//Get all reviews
+// Hämta alla recensioner (öppen access)
 router.get("/", CatchAsync(getAllReviews));
 
-//Get details for a review by id
+// Hämta recension via ID
 router.get(
   "/:id",
   validate(reviewIdSchema, "params"),
   CatchAsync(findReviewById)
 );
 
-//Post a review
+// Lägg till recension (kräver inloggning)
 router.post(
   "/",
   authorization,
@@ -35,7 +35,7 @@ router.post(
   CatchAsync(addReview)
 );
 
-//Update a review by id
+// Uppdatera recension via ID (kräver inloggning)
 router.put(
   "/:id",
   authorization,
@@ -44,7 +44,7 @@ router.put(
   CatchAsync(updateReviewById)
 );
 
-//Delete a review by id
+// Radera recension via ID (kräver inloggning)
 router.delete(
   "/:id",
   authorization,
